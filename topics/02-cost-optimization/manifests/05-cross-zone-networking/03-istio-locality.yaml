@@ -1,0 +1,16 @@
+# With Istio: keep traffic in the caller's zone and fail over to other zones when pods are unhealthy.
+# outlierDetection is required for locality load balancing to take effect.
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: backend
+spec:
+  host: backend
+  trafficPolicy:
+    loadBalancer:
+      localityLbSetting:
+        enabled: true
+    outlierDetection:
+      consecutive5xxErrors: 3
+      interval: 10s
+      baseEjectionTime: 30s
