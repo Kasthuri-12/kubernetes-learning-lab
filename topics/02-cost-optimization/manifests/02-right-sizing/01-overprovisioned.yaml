@@ -1,0 +1,25 @@
+# Deliberately oversized: 5 replicas reserving 500m CPU and 512Mi each for an idle nginx.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-big
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: web-big
+  template:
+    metadata:
+      labels:
+        app: web-big
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.27
+        resources:
+          requests:
+            cpu: 500m
+            memory: 512Mi
+          limits:
+            cpu: "1"
+            memory: 1Gi

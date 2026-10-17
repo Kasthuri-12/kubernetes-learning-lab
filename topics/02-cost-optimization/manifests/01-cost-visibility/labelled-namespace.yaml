@@ -1,0 +1,42 @@
+# Consistent labels let cost tools group spend by team, environment and cost centre.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: payments-dev
+  labels:
+    team: payments
+    env: dev
+    cost-center: cc-1234
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments-api
+  namespace: payments-dev
+  labels:
+    app: payments-api
+    team: payments
+    env: dev
+    cost-center: cc-1234
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payments-api
+  template:
+    metadata:
+      labels:
+        app: payments-api
+        team: payments
+        env: dev
+        cost-center: cc-1234
+    spec:
+      containers:
+      - name: api
+        image: nginx:1.27
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            memory: 128Mi

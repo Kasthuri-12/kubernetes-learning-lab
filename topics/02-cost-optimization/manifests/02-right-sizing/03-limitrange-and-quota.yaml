@@ -1,0 +1,33 @@
+# Guard rails for a namespace: defaults for pods that set nothing, and a cap on total reservations.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sizing-lab
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: defaults
+  namespace: sizing-lab
+spec:
+  limits:
+  - type: Container
+    defaultRequest:
+      cpu: 50m
+      memory: 64Mi
+    default:
+      memory: 128Mi
+    max:
+      cpu: "1"
+      memory: 1Gi
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: team-quota
+  namespace: sizing-lab
+spec:
+  hard:
+    requests.cpu: "2"
+    requests.memory: 2Gi
+    limits.memory: 4Gi
