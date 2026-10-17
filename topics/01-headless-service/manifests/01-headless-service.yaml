@@ -1,0 +1,13 @@
+# clusterIP: None makes the Service headless: DNS returns pod IPs instead of one virtual IP.
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-db-headless-service
+spec:
+  clusterIP: None
+  selector:
+    app: mysql
+  ports:
+  - name: mysql
+    port: 3306
+    targetPort: 3306

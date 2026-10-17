@@ -1,0 +1,12 @@
+# Normal Service over the same pods, for comparison with the headless one.
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-db-clusterip-service
+spec:
+  selector:
+    app: mysql
+  ports:
+  - name: mysql
+    port: 3306
+    targetPort: 3306
