@@ -1,0 +1,46 @@
+# AKS spot node pool values. For EKS use label eks.amazonaws.com/capacityType=SPOT, for GKE cloud.google.com/gke-spot=true.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spot-worker
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spot-worker
+  template:
+    metadata:
+      labels:
+        app: spot-worker
+    spec:
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - key: kubernetes.azure.com/scalesetpriority
+        operator: Equal
+        value: spot
+        effect: NoSchedule
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+              - key: kubernetes.azure.com/scalesetpriority
+                operator: In
+                values: ["spot"]
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app: spot-worker
+      containers:
+      - name: worker
+        image: nginx:1.27
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            memory: 128Mi
