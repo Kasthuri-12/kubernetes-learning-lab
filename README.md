@@ -1,28 +1,30 @@
 # Kubernetes Learning Lab
 
-Short, hands-on Kubernetes topics. Each topic has a README that explains the concept, the manifests to apply, the commands to run, and what you should see.
+Hands-on labs for learning Kubernetes by doing. Each topic explains a concept in plain words, gives the manifests or charts to apply, the commands to run, the output to expect, and how to clean up. Everything runs on a local minikube cluster unless a topic says it needs a cloud cluster.
 
 ## Topics
 
-| # | Topic | What it covers | Where to run |
+| # | Topic | What you learn | Where to run |
 |---|---|---|---|
-| 1 | [Headless Service](topics/01-headless-service) | `clusterIP: None`, StatefulSet pod DNS, comparison with a normal Service | minikube |
-| 2 | [Cluster cost optimization](topics/02-cost-optimization) | Cost visibility, right-sizing, autoscaling, spot instances, cross-zone networking cost | Mixed: see the table in the topic README |
-| 3 | [Helm](topics/03-helm) | Charts, repositories, releases, values, upgrade and rollback, building and publishing your own chart | minikube |
+| 1 | [Headless Service](topics/01-headless-service) | Why `clusterIP: None` exists, how StatefulSet pods get stable DNS names, and how that differs from a normal Service | minikube |
+| 2 | [Cluster cost optimization](topics/02-cost-optimization) | Five ways to cut cluster cost: cost visibility, right-sizing requests and limits, autoscaling, spot instances, cross-zone networking | minikube for visibility, right-sizing and autoscaling; a cloud cluster for spot and cross-zone |
+| 3 | [Helm](topics/03-helm) | Charts, repositories, releases and values; install, upgrade and roll back; build your own chart and publish it as a chart repository | minikube |
 
-## Status
+## Repository layout
 
-Nothing in this repo has been run end to end yet. Update this table as you verify each topic.
+```
+topics/
+├── 01-headless-service/     README + Service and StatefulSet manifests
+├── 02-cost-optimization/    README + manifests, one folder per technique
+└── 03-helm/                 README with all the commands and a cheat sheet
+```
 
-| Topic | Status |
-|---|---|
-| 1. Headless Service | Not yet run |
-| 2.1 Cost visibility | Not yet run |
-| 2.2 Right-sizing | Not yet run |
-| 2.3 Autoscaling | Not yet run |
-| 2.4 Spot instances | Not yet run (needs a cloud cluster) |
-| 2.5 Cross-zone networking | Not yet run (needs a multi-zone cluster) |
-| 3. Helm | Not yet run |
+## How to use it
+
+1. Start a local cluster (see Prerequisites below).
+2. Open a topic's README and read the concept section first.
+3. Run the commands from that topic's folder, and compare your output with what the README says to expect.
+4. Run the cleanup commands at the end of the topic before starting the next one.
 
 ## Prerequisites
 
